@@ -24,7 +24,7 @@ const Total = ({ parts }) => {
 
   //const sum = course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises
   return(
-    <p>Number of exercises {total}</p>
+    <p> <b>total of exercises {total}</b></p>
   ) 
 }
 
@@ -63,6 +63,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id:3
+      },
+      {
+        name: 'Reux',
+        exercises: 11,
+        id:4
       }
       
     ]
@@ -72,7 +77,7 @@ const App = () => {
 
     <div>
       <Course course={course} />
-      {/* <Total parts={course.parts} /> */}
+      <Total parts={course.parts} />
     </div>
   
   )
