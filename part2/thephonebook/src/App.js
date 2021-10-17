@@ -67,7 +67,7 @@ const App = () => {
   //Handler when number is changed in the form 
   const handleNumberChange = (event) => setNewNumber(event.target.value)
 
-  //Handler when number is changed in the form 
+  //Handler when filter is changed
   const handleSearchFilterChange = (event) => setSearchFilter(event.target.value)
 
 
@@ -84,7 +84,6 @@ const App = () => {
       <Persons personArray={ personsArrayShow()  } />
 
     </div>
-
   )
 }
 
