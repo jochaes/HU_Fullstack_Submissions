@@ -15,7 +15,6 @@ function App() {
   const [countries, setCountries] = useState([]) //Empty because we want to retrieve the data from the api
   const [searchFilter, setSearchFilter] = useState('') //Search bar for countries 
   
-  
   //Retrieve Countries data from RestAPI
   const getCountriesAPI = () => {
     console.log("Sending Get request to CountriesAPI")
@@ -36,13 +35,15 @@ function App() {
       const regex = new RegExp(`${searchFilter}`, "gi") //Regular expression to get the name upper or lower case
       const filteredNames = countries.filter( place =>  place.name.common.match(regex) !== null) //Filter the names with that regex
       if(filteredNames.length > 10){
-        return "too many matches, specify another filter" //This must be done different, because Countries expect a ul element not a string, maybe we can change Countries to accept errors.
+        return <p>too many matches, specify another filter</p> //This must be done different, because Countries expect a ul element not a string, maybe we can change Countries to accept errors.
       }else{
         if(filteredNames.length === 1){
           return <CountryInfo country={filteredNames[0]} />
 
         }else{
-          return filteredNames.map(place => <Country key = {parseInt(place.ccn3)} country={place.name.common} />)
+          
+          const countryArrayFinal = filteredNames.map(place => <Country key = {parseInt(place.ccn3)} country={place} onClickhandler={showButton} />)
+          return <Countries countryArray={countryArrayFinal}/>
         }
         
       }
@@ -55,6 +56,10 @@ function App() {
   //Handle when searchbox text it's modified
   const handleSearchFilterChange = (event) => setSearchFilter(event.target.value)
   
+  const showButton = (event) => {
+    console.log(event.target.name);
+    setSearchFilter(event.target.name)
+  }
 
 
 
@@ -62,7 +67,7 @@ function App() {
     <div>
       <h1>Countries!</h1>
       <SearchFilter value={searchFilter} onChange={handleSearchFilterChange}/>
-      <Countries countryArray={showCountries() } />
+      { showCountries() }
 
     </div>
   );
