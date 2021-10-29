@@ -4,6 +4,8 @@ import SearchFilter from './Components/SearchFilter'
 import PersonForm from './Components/PersonForm'
 import Persons from './Components/Persons'
 import personsService from './Services/persons'
+import Notification from './Components/Notification'
+
 
 const App = () => {
   //UseStates for "Variables"
@@ -12,6 +14,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ searchFilter, setSearchFilter ] = useState('')
+  //const [errorMessage, setErrorMessage] = useState('This is an error message') // to set the error message
+  const [errorMessage, setErrorMessage] = useState(null) // to set the error message
 
   const GETServerNotes = () =>{
     console.log("Sending request");
@@ -47,13 +51,22 @@ const App = () => {
       }
       //Request to store person
       personsService.create(personObject)
-                    .then(
-                      storedPerson => setPersons( persons.concat(storedPerson) )
-                    )
-
+                    .then( storedPerson => {
+                      const message = `${storedPerson.name}' contact has been added to the phonebook'`
+                      showMessage(message)
+                      setPersons( persons.concat(storedPerson) )
+                    })
       setNewName('')
       setNewNumber('')
     }
+  }
+
+  //A function that displays a message 
+  const showMessage = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000);
   }
   
   //A function that returns an array containing persons to show 
@@ -76,9 +89,11 @@ const App = () => {
     if (window.confirm(message)){     //If confirm then Delete the person 
       console.log('Ok deleting')
       personsService.destroy(personID)
-      .then( 
+      .then( () =>{
+        const message = `${toDeletePerson.name}'s contact has been deleted from the phonebook`
+        showMessage(message)
         setPersons( persons.filter( p=> p.id !== toDeletePerson.id ) )
-      )      
+      })      
     }
   }
   //A fucntion to update the person's phone number 
@@ -87,7 +102,10 @@ const App = () => {
       const newPerson = {...person, number: newPhoneNumber} 
       personsService.update(person.id, newPerson)
                     .then( updatedPerson => {
-                    setPersons(persons.map( p=> p.id !== person.id ? p : updatedPerson )) })
+                      const message = `${person.name}'s phone number has been updated`
+                      showMessage(message)
+                      setPersons(persons.map( p=> p.id !== person.id ? p : updatedPerson )) 
+                  })
   }
 
 
@@ -107,7 +125,9 @@ const App = () => {
 
   return (
     <div>
+      
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <SearchFilter value={searchFilter} onChange={handleSearchFilterChange}/>
 
       <h2>Add a new </h2>
