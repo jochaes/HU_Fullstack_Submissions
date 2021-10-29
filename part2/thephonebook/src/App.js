@@ -93,6 +93,10 @@ const App = () => {
         const message = `${toDeletePerson.name}'s contact has been deleted from the phonebook`
         showMessage(message)
         setPersons( persons.filter( p=> p.id !== toDeletePerson.id ) )
+      })
+      .catch(error => {
+        const message = "There was a problem trying to delete this user"
+        showMessage(message)
       })      
     }
   }
@@ -105,7 +109,11 @@ const App = () => {
                       const message = `${person.name}'s phone number has been updated`
                       showMessage(message)
                       setPersons(persons.map( p=> p.id !== person.id ? p : updatedPerson )) 
-                  })
+                    })
+                    .catch( error => {
+                      const message = "User already deleted from the server"
+                      showMessage(message)
+                    })
   }
 
 
