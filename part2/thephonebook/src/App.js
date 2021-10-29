@@ -94,8 +94,9 @@ const App = () => {
         showMessage(message)
         setPersons( persons.filter( p=> p.id !== toDeletePerson.id ) )
       })
-      .catch(error => {
-        const message = "There was a problem trying to delete this user"
+      .catch(error => {     //Catch error and displays an error message 
+        const message = "User Already deleted from server"
+        setPersons( persons.filter( p=> p.id !== toDeletePerson.id ) )
         showMessage(message)
       })      
     }
@@ -111,7 +112,8 @@ const App = () => {
                       setPersons(persons.map( p=> p.id !== person.id ? p : updatedPerson )) 
                     })
                     .catch( error => {
-                      const message = "User already deleted from the server"
+                      const message = "Can't update: User already deleted from the server"
+                      setPersons( persons.filter( p => p.id !== person.id ))
                       showMessage(message)
                     })
   }
