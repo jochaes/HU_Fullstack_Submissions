@@ -4,7 +4,7 @@ const app = express()
 app.use(express.json())          //We use express.json to get the json data from the request 
 
 
-const persons = [
+let persons = [
     { 
       "id": 1,
       "name": "Arto Hellas", 
@@ -74,7 +74,11 @@ app.get('/info',(request, response)=>{
     response.send(message)
 })
 
-
+app.delete('/api/persons/:id', (request, response)=>{
+    const reqId = Number(request.params.id)   //Parse the param to an int
+    persons = persons.filter(person => person.id !== reqId)   //Database is a new database without the note with the given id 
+    response.status(204).end()     
+})
 
 
 const PORT = 3001
