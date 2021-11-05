@@ -27,10 +27,38 @@ const persons = [
     }
 ]
 
+const getPersonsSize = () => {
+    const personsSize = persons.length
+    return personsSize
+}
+
+//Returns the actual date 
+const generateDate = ( ) => {
+    const nowDate = (new Date()).toString() //"Fri Jun 28 2013 15:30:18 GMT-0700 (PDT)"
+    return nowDate
+  }
 
 //Returns phonebook to the client
 app.get('/api/persons', (request, response)=>{
     response.json(persons)
+})
+
+//Returns some html with a little info about the phonebook 
+app.get('/info',(request, response)=>{
+    const date = generateDate()
+    const phonebookSize = getPersonsSize()
+    const message = `
+        <div> 
+            <p>
+                Phonebook has info for ${phonebookSize} people
+            </p>
+            <p>
+                ${date}
+            </p>
+        </div>`
+
+    response.setHeader('Content-Type', 'text/html')
+    response.send(message)
 })
 
 
