@@ -43,6 +43,19 @@ app.get('/api/persons', (request, response)=>{
     response.json(persons)
 })
 
+app.get('/api/persons/:id',(request, response)=>{
+    const reqId = Number(request.params.id)   //Parse the param to an int
+
+    const person = persons.find( p => p.id === reqId ) //Find the person 
+
+    if(!person){  //Error if person does not exists
+        response.statusMessage = "We didn't found that person, sorry!"  //Sends a message inside the status message 
+        return response.status(404).end() 
+    }
+
+    response.json(person)  //Returns person 
+})
+
 //Returns some html with a little info about the phonebook 
 app.get('/info',(request, response)=>{
     const date = generateDate()
