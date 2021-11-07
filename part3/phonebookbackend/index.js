@@ -1,8 +1,10 @@
 const { request, response } = require('express')
 const express = require('express')  //Here we import express as part of the app
+const morgan = require('morgan')
+
 const app = express()
 app.use(express.json())          //We use express.json to get the json data from the request 
-
+app.use(morgan('tiny'))
 
 let persons = [
     { 
