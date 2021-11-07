@@ -4,7 +4,17 @@ const morgan = require('morgan')
 
 const app = express()
 app.use(express.json())          //We use express.json to get the json data from the request 
-app.use(morgan('tiny'))
+
+//A token that logs the request's body only if the request is a POST
+morgan.token('post-data', (req) => {
+    if(req.method === 'POST'){
+        return JSON.stringify(req.body)
+    }else{
+        return "-"
+    }
+})
+
+app.use(morgan(':method :url :status :response-time ms :post-data'))
 
 let persons = [
     { 
