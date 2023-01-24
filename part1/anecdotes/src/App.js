@@ -64,9 +64,9 @@ const App = () => {
   const handleRandonAnecdote = () => setSelected( getRandomArbitrary() )
 
   return (
-    <div>
+    <div >
       <div>
-        <h1>Anecdote of the day</h1>
+        <h1 className="principal">Anecdote of tFGFGhe day</h1>
         <Display text = {anecdotes[selected]} />
         <DisplayPoints value = {points[selected]} />
       </div>
