@@ -8,24 +8,25 @@ const CountryInfo = ({country}) => {
     //Gets the Weather in the capital of a country
     const getCapitalWeather = () => {
         console.log("Sending Get request to WeatherAPI")
-        const weather_api_key = process.env.REACT_APP_API_KEY
-        axios.get(`http://api.weatherstack.com/current?access_key=${weather_api_key}&query=${country.capital[0]},${country.name.common}`) //Get request to api (query="Capital","Country")
+        // "const weather_api_key = process.env.REACT_APP_API_KEY"
+        const weather_api_key = "2cb82bbfdc2cdea731cea51c3384ac87"
+        // axios.get(`http://api.weatherstack.com/current?access_key=${weather_api_key}&query=${country.capital[0]},${country.name.common}`) //Get request to api (query="Capital","Country")
+        axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${country.latlng[0]}&lon=${country.latlng[1]}&appid=${weather_api_key}&units=metric`) //Get request to api (query="Capital","Country")
           .then( response => {
             console.log("Weather Response Fulfilled")
             const weatherResponse = [response.data]  //Stores weather  in state
-            //console.log(response.data);
             setWeather(weatherResponse)             //countries are stored in the state
           } )
     }
     useEffect(getCapitalWeather,[])
     //Gets the temperature from the alreade stored weather
-    const getTemperature = () => weather.length === 0 ? "NO DATA" :weather[0].current.temperature
+    const getTemperature = () => weather.length === 0 ? "NO DATA" :weather[0].main.temp
 
     //Gets Image from already stored weather
-    const getWeatherIcon = () => weather.length === 0 ? "NO DATA" :weather[0].current.weather_icons[0]
+    const getWeatherIcon = () => weather.length === 0 ? "NO DATA" :`http://openweathermap.org/img/wn/${weather[0].weather[0].icon}@2x.png`
 
     //Gets Wind speed and direction from already stored data in state 
-    const getWind = () => weather.length === 0 ? "NO DATA"        :weather[0].current.wind_speed.toString() + " mph direction " + weather[0].current.wind_dir.toString()
+    const getWind = () => weather.length === 0 ? "NO DATA"        :weather[0].wind.speed.toString() + " m/s direction " + weather[0].wind.deg.toString() + " degrees."
 
     return <div>
     <h2>{country.name.common}</h2>
