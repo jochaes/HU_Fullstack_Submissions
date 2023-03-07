@@ -82,8 +82,8 @@ const App = () => {
 
   //A function to request a delete 
   const personDelete = ( personID ) => {
-
-    const toDeletePerson = persons.find( p => p.id === parseInt(personID)) //Find the person to delete
+    console.log(personID);
+    const toDeletePerson = persons.find( p => p.id === personID) //Find the person to delete
     const message = `Delete ${toDeletePerson.name} ?`    //Message for window.confirm
 
     if (window.confirm(message)){     //If confirm then Delete the person 
